@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your To-Do List | Created by Ofikur R.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="img/favicon/site.webmanifest">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <div>
+                <h1>Your To-Do List</h1>
+                <p id="current-datetime"></p>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun icon icon-sun"></i>
+                <i class="fa-solid fa-moon icon icon-moon"></i>
+            </button>
+        </header>
+
+        <form id="todo-form" class="todo-form">
+            <div class="form-group main-input">
+                <input type="text" id="todo-input" placeholder="What is your todo?" autocomplete="off" required>
+            </div>
+            <div class="form-group description-input">
+                <textarea id="todo-description" placeholder="Add a description (optional)..." rows="2"></textarea>
+            </div>
+            <div class="form-row">
+                 <div class="form-group">
+                    <label for="todo-priority"><i class="fa-solid fa-flag"></i> Priority</label>
+                    <select id="todo-priority">
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="due-date-input"><i class="fa-solid fa-calendar-days"></i> Due Date</label>
+                    <input type="date" id="due-date-input" required>
+                </div>
+            </div>
+            <button type="submit" class="add-btn" aria-label="Add task">
+                 <i class="fa-solid fa-plus"></i> Add Task
+            </button>
+        </form>
+        
+        <div class="stats-container">
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <span id="task-counter" class="task-counter">0/0 Tasks Completed</span>
+        </div>
+
+        <div class="controls">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="pending">Pending</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+            <div class="date-filter-container">
+                <i class="fa-solid fa-calendar-day"></i>
+                <input type="date" id="date-filter-input" title="Filter by a specific due date">
+                <button id="clear-date-filter-btn" class="clear-btn hidden" title="Clear date filter">&times;</button>
+            </div>
+            <div class="actions">
+                <button id="delete-all-btn" class="action-btn danger"><i class="fa-solid fa-trash-can"></i> Delete All</button>
+            </div>
+        </div>
+
+        <ul id="todo-list" class="todo-list">
+            </ul>
+        <div id="empty-state" class="empty-state">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <p>All clear! No tasks here.</p>
+        </div>
+    </div>
+
+    <div id="detail-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="detail-task-title">Task Title</h2>
+                <button id="close-detail-btn" class="close-btn" aria-label="Close detail view">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="detail-task-description">Description goes here...</p>
+                <div class="detail-grid">
+                    <div>
+                        <strong><i class="fa-solid fa-flag"></i> Priority</strong>
+                        <span id="detail-priority"></span>
+                    </div>
+                    <div>
+                        <strong><i class="fa-solid fa-calendar-check"></i> Due Date</strong>
+                        <span id="detail-due-date"></span>
+                    </div>
+                    <div>
+                        <strong><i class="fa-solid fa-calendar-plus"></i> Created On</strong>
+                        <span id="detail-created-at"></span>
+                    </div>
+                    <div>
+                        <strong><i class="fa-solid fa-circle-info"></i> Status</strong>
+                        <span id="detail-status"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="edit-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>Edit Task</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-task-id">
+                <label for="edit-task-text">Task Name</label>
+                <input type="text" id="edit-task-text" required>
+                <label for="edit-task-description">Description (Optional)</label>
+                <textarea id="edit-task-description" rows="3" placeholder="Add more details..."></textarea>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-due-date">Due Date</label>
+                        <input type="date" id="edit-due-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-priority">Priority</label>
+                        <select id="edit-priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-edit-btn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="confirm-modal" class="modal-overlay hidden">
+        <div class="modal-content small">
+            <h2 id="confirm-title">Are you sure?</h2>
+            <p id="confirm-text">This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button type="button" id="cancel-confirm-btn" class="btn-secondary">Cancel</button>
+                <button type="button" id="confirm-action-btn" class="btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
