@@ -5,7 +5,7 @@
 
 Selamat datang di repositori **Your To-Do List**, sebuah aplikasi web *single-page* yang dinamis dan interaktif untuk mengelola tugas harian. Proyek ini dirancang untuk mendemonstrasikan fundamental pengembangan web front-end modern, dengan fokus pada manipulasi DOM, manajemen *state* menggunakan Local Storage, dan desain yang responsif.
 
-Proyek ini dibuat sebagai bagian dari tugas **Mini Coding Project** untuk program **Software Engineering Coding Camp** yang diselenggarakan oleh **RevoU**.
+Proyek ini dibuat sebagai bagian dari tugas **Mini Coding Project** untuk program **Software Engineering Coding Camp** pada **1 September 2025** yang diselenggarakan oleh **RevoU**.
 
 #### Tampilan Mode Terang (Light Mode)
 ![Tampilan Light Mode](screenshot/your-todo-light.png)
